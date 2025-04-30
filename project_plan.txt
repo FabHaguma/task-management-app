@@ -1,0 +1,115 @@
+Task Management App: MVP Plan
+This plan outlines the core features, architecture, and a 3-day development timeline for the Minimum Viable Product (MVP) of your Task Management App.
+
+Tech Stack:
+
+Backend: Spring Boot (Java)
+
+Frontend: React (JavaScript/TypeScript)
+
+Database: PostgreSQL
+
+1. Core MVP Features (Minimal Set)
+Create Task: Add a new task with a description.
+
+View Tasks: Display the list of all tasks.
+
+Mark Task as Complete: Toggle the completion status of a task.
+
+(Optional but Recommended): Delete Task: Remove a task.
+
+(Note: Due dates, detailed editing, user accounts, and advanced features are excluded from the MVP)
+
+2. Rough Architecture (MVP)
+(Based on Step 1: Sketch Basic System Diagram)
+
++-----------------+        +---------------------+        +-----------------+
+|  React Frontend | <----->| Spring Boot Backend | <----->|   PostgreSQL    |
+| (User Interface)|        |    (REST API)       |        |   (Database)    |
++-----------------+        +---------------------+        +-----------------+
+       |                          |                            |
+   - Displays Tasks             - /api/tasks (GET)           - Stores `tasks` table
+   - Form to Add Task           - /api/tasks (POST)            (id, description, completed)
+   - Button to Mark Done        - /api/tasks/{id} (PUT/PATCH)
+   - Button to Delete           - /api/tasks/{id} (DELETE)
+
+Frontend (React): Handles user interaction. Makes HTTP requests to the backend API to fetch or modify data. Displays the task list and provides forms/buttons for actions.
+
+Backend (Spring Boot): Exposes a REST API. Handles requests from the frontend, interacts with the database (performs CRUD operations), and sends responses back to the frontend.
+
+Database (PostgreSQL): Persists the task data. A simple tasks table with columns like id (primary key), description (text), and completed (boolean) is sufficient for the MVP.
+
+3. Basic 3-Day Development Plan (MVP Focus)
+This plan integrates your preferred step-by-step approach:
+
+Day 1: Setup & Basic Read
+
+(Step 2) Scaffold Projects:
+
+Generate a basic Spring Boot project (using Spring Initializr).
+
+Generate a basic React project (using Create React App or Vite).
+
+(Step 2) Basic Structure & Connection:
+
+Create a simple Task entity/model in Spring Boot.
+
+Create a basic TaskController in Spring Boot with a placeholder /api/tasks GET endpoint that returns a hardcoded list of tasks.
+
+Set up a basic React component to fetch data from the backend (initially the hardcoded list). Use fetch or axios.
+
+Display the hardcoded tasks in the React frontend.
+
+(Step 1) Refine Diagram/Understanding: Ensure the basic connection works as expected.
+
+Day 2: Database Integration & Create Task
+
+(Step 5 - Replace Fake Data):
+
+Configure Spring Boot to connect to your PostgreSQL database.
+
+Implement the database repository/DAO layer for the Task entity.
+
+Modify the /api/tasks GET endpoint in Spring Boot to fetch tasks from the database instead of returning hardcoded data.
+
+Verify the frontend now displays tasks from the database (add some sample data directly to the DB initially if needed).
+
+(Step 3 & 6 - Vertical Slice: Create Task):
+
+API Contract: Define the /api/tasks POST endpoint (Request body: { "description": "New task text" }, Response: the created task object or success status).
+
+Backend: Implement the POST endpoint logic in TaskController to save a new task to the database.
+
+Frontend: Create a simple form in React with an input field and a submit button. On submit, send a POST request to the backend API with the new task description.
+
+(Optional): Refresh the task list in the frontend after successfully adding a task.
+
+Day 3: Update/Delete & Basic Deployment Prep
+
+(Step 6 - Vertical Slice: Mark as Complete):
+
+API Contract: Define a PUT or PATCH endpoint (e.g., /api/tasks/{id}/complete or /api/tasks/{id} with body { "completed": true/false }).
+
+Backend: Implement the endpoint logic to update the completed status of a task in the database.
+
+Frontend: Add a button or checkbox next to each task. On click, send the appropriate request to the backend to toggle the completion status. Update the UI accordingly (e.g., strikethrough).
+
+(Step 6 - Vertical Slice: Delete Task - If time permits):
+
+API Contract: Define the /api/tasks/{id} DELETE endpoint.
+
+Backend: Implement the endpoint logic to delete a task from the database.
+
+Frontend: Add a delete button next to each task. On click, send the DELETE request and remove the task from the list in the UI.
+
+(Step 7 - Deploy Early Prep):
+
+Create basic Dockerfiles for both the Spring Boot backend and the React frontend (for production build).
+
+Create a simple docker-compose.yml file to orchestrate the backend, frontend, and database containers.
+
+Goal: Get the application running locally using docker-compose up. Actual deployment to a hosting service can come after the MVP is functionally complete locally.
+
+(Step 8 - Leave Polish): Resist adding styling, loading indicators, complex error handling, etc., for now. Focus purely on the core CRUD functionality working end-to-end.
+
+This plan provides a focused path to building your MVP. Remember to keep things simple and follow the vertical slice approach. Good luck!
